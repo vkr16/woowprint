@@ -20,7 +20,9 @@ $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('Customer');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
-$routes->set404Override();
+$routes->set404Override(function () {
+    return view('errors/404');
+});
 // The Auto Routing (Legacy) is very dangerous. It is easy to create vulnerable apps
 // where controller filters or CSRF protection are bypassed.
 // If you don't want to define all routes, please use the Auto Routing (Improved).
@@ -38,7 +40,16 @@ $routes->set404Override();
 /**
  * Customer Side
  */
-$routes->get('/', 'Customer::index');
+$routes->get('/', 'Customer::auth');
+$routes->post('/order', 'Customer::customerGetOrder');
+$routes->get('/order', 'Customer::customerOrderDetail');
+
+
+/**
+ * Photo Management
+ */
+$routes->post('/order/upload', 'Customer::customerUpload');
+
 
 /**
  * Admin Side
