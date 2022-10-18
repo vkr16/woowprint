@@ -44,7 +44,7 @@
                 </form>
 
                 <!-- <p class="mt-3">Or <a href="register.php">Create an account</a></p> -->
-                <p class="small text-muted text-center mt-5">&copy; 2022 Company Name <br> Powered by <a href="https://www.akuonline.my.id">AkuOnline</a></p>
+                <p class="small text-muted text-center mt-5">&copy; 2022 Woowprint <br> Powered by <a href="https://www.akuonline.my.id">AkuOnline</a></p>
             </div>
         </div>
     </section>

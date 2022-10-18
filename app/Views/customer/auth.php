@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selamat Datang | Company Name</title>
+    <title>Selamat Datang | Woowprint</title>
     <?= $this->include('components/links') ?>
 </head>
 
@@ -18,11 +18,11 @@
                 <h5>Silahkan masukkan nomor pesanan anda.</h5>
                 <hr class="col-5">
                 <div class="mb-3">
-                    <input type="text" id="inputOrderNo" class="form-control uppercase" placeholder="Nomor Pesanan" maxlength="6">
+                    <input type="text" id="inputOrderNo" class="form-control uppercase" placeholder="Nomor Pesanan" maxlength="6" onkeypress="submitCode(event)">
                 </div>
                 <button class="btn btn-primary rounded-0 mb-5" onclick="checkOrder()">Cek Pesanan</button>
 
-                <p class="small text-muted text-center mt-5">&copy; 2022 Company Name <br> Powered by <a href="https://www.akuonline.my.id">AkuOnline</a></p>
+                <p class="small text-muted text-center mt-5">&copy; 2022 Woowprint <br> Powered by <a href="https://www.akuonline.my.id">AkuOnline</a></p>
 
             </div>
         </div>
@@ -49,6 +49,13 @@
                         }
                     }, 500);
                 })
+        }
+
+        function submitCode(e) {
+            var key = e.keyCode || e.which;
+            if (key == 13) {
+                checkOrder()
+            }
         }
     </script>
 </body>

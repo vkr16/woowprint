@@ -15,7 +15,7 @@
         <div class="col-10">
             <p class="h1">404 | Not Found</p>
             <button class="btn btn-primary rounded-0 mt-4" onclick="history.back()"><i class="fa-solid fa-angles-left"></i>&nbsp; Back</button>
-            <p class="small text-muted text-center mt-5">&copy; 2022 Company Name <br> Powered by <a href="https://www.akuonline.my.id">AkuOnline</a></p>
+            <p class="small text-muted text-center mt-5">&copy; 2022 Woowprint <br> Powered by <a href="https://www.akuonline.my.id">AkuOnline</a></p>
 
         </div>
     </div>

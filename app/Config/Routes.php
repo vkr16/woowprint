@@ -43,6 +43,8 @@ $routes->set404Override(function () {
 $routes->get('/', 'Customer::auth');
 $routes->post('/order', 'Customer::customerGetOrder');
 $routes->get('/order', 'Customer::customerOrderDetail');
+$routes->post('/order/deletephoto', 'Customer::customerDeletePhoto');
+$routes->post('/order/confirm', 'Customer::customerConfirm');
 
 
 /**

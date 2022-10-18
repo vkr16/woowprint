@@ -40,7 +40,7 @@ class Admin extends BaseController
         $builder = $db->table('photos');
 
         foreach ($data['orders_uploading'] as $key => $order) {
-            $data['orders_uploading'][$key]['uploaded'] = $builder->select('*')->where('order_id =', $order['id'])->countAllResults();
+            $data['orders_uploading'][$key]['uploaded'] = $builder->select('*')->where('order_id =', $order['id'])->where('deleted_at =', NULL)->countAllResults();
         }
 
 

@@ -43,7 +43,6 @@ class Customer extends BaseController
 
     public function customerOrderDetail()
     {
-
         if (!isset($_GET['i'])) {
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         } else {
@@ -53,7 +52,9 @@ class Customer extends BaseController
                     $db = \Config\Database::connect();
                     $builder = $db->table('photos');
 
-                    $data['uploaded'] = $builder->select('*')->where('order_id =', $data['order'][0]['id'])->countAllResults();
+                    $data['uploaded'] = $builder->select('*')->where('order_id =', $data['order'][0]['id'])->where('deleted_at =', NULL)->countAllResults();
+
+                    $data['photos'] = $this->photoModel->where('order_id', $data['order'][0]['id'])->find();
                     return view('customer/order', $data);
                 } else {
                     throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
@@ -71,6 +72,11 @@ class Customer extends BaseController
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         } else {
             if ($order = $this->orderModel->where('token', $token)->find()) {
+                $db = \Config\Database::connect();
+                $builder = $db->table('photos');
+
+                $uploaded = $builder->select('*')->where('order_id =', $order[0]['id'])->where('deleted_at =', NULL)->countAllResults();
+
                 $validationRule = [
                     'photo' => [
                         'label' => 'Image File',
@@ -80,26 +86,68 @@ class Customer extends BaseController
                     ],
                 ];
                 if (!$this->validate($validationRule)) {
-                    $this->session->setFlashdata('error', 'File gambar tidak valid');
+                    $this->session->setFlashdata('return', 'File gambar tidak valid');
                     return redirect()->to(base_url('order') . "?i=" . $token);
                 }
 
-                $img = $this->request->getFile('photo');
-                var_dump($img);
+                $file = $this->request->getFile('photo');
 
-                // if (!$img->hasMoved()) {
-                //     $filepath = WRITEPATH . 'uploads/' . $img->store();
+                $newName = str_replace(" ", "", $order[0]['cust_name']) . '-' . $order[0]['order_no'] . '-' . time() . '.' . $file->getClientExtension();
 
-                //     $data = ['uploaded_flleinfo' => new File($filepath)];
+                $photoData = [
+                    "file_name" => $newName,
+                    "order_id" => $order[0]['id']
+                ];
 
-                //     return view('upload_success', $data);
-                // }
-                // $data = ['errors' => 'The file has already been moved.'];
-
-                // return view('upload_form', $data);
+                if ($uploaded < $order[0]['amount_photo']) {
+                    if ($file->move("public/uploads/", $newName)) {
+                        if ($this->photoModel->insert($photoData)) {
+                            $this->session->setFlashdata('success', 'Pengunggahan gambar berhasil!');
+                            return redirect()->to(base_url('order') . "?i=" . $token);
+                        } else {
+                            $this->session->setFlashdata('error', 'Pengunggahan gambar gagal! <br>(Error : database server)');
+                            return redirect()->to(base_url('order') . "?i=" . $token);
+                        }
+                    } else {
+                        $this->session->setFlashdata('error', 'Pengunggahan gambar gagal! <br>(Error : image server hosting)');
+                        return redirect()->to(base_url('order') . "?i=" . $token);
+                    }
+                } else {
+                    $this->session->setFlashdata('error', 'Pengunggahan gambar gagal! <br>Jumlah foto melebihi batas!');
+                    return redirect()->to(base_url('order') . "?i=" . $token);
+                }
             } else {
                 throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
             }
+        }
+    }
+
+    public function customerDeletePhoto()
+    {
+        $id = $_POST['id'];
+        $file_name = $_POST['file_name'];
+
+
+        if ($this->photoModel->where('file_name', $file_name)->where('id', $id)->find()) {
+            if ($this->photoModel->delete($id)) {
+                unlink('public/uploads/' . $file_name);
+                return "deleted";
+            }
+        } else {
+            return "notfound";
+        }
+    }
+
+    public function customerConfirm()
+    {
+        $id = $_POST['id'];
+
+        if ($order = $this->orderModel->find($id)) {
+            if ($this->orderModel->where('id', $id)->set('status', 'queued')->update()) {
+                return "success";
+            }
+        } else {
+            return "notfound";
         }
     }
 }
