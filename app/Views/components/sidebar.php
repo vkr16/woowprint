@@ -5,7 +5,7 @@
                 <!-- <i class="fa-brands fa-bootstrap fa-fw fa-2x"></i> -->
                 <img src="<?= base_url('public/assets/img/logo.png') ?>" width="36px" alt="">
                 &emsp;
-                <span class="fs-5 fw-bold">Simple OMS</span>
+                <span class="fs-4 fw-bold font-nunito-sans">Woowprint</span>
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">

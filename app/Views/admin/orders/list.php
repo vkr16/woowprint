@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Inventory Manager</title>
+    <title>Orders - Woowprint</title>
     <?= $this->include('components/links') ?>
 </head>
 
@@ -208,8 +208,6 @@
                             <option value="uploading">Uploading</option>
                             <option value="queued">Queued</option>
                             <option value="processing">Processing</option>
-                            <option value="shipping">Shipping</option>
-                            <option value="completed">Completed</option>
                         </select>
                     </div>
                 </div>
@@ -501,7 +499,67 @@
                         'Please check your connection and server status',
                         'Okay', )
                 })
+        }
 
+        function downloadFiles(id, order_no) {
+            Notiflix.Confirm.show('Download Files Confirmation',
+                'Want to download all photos from order ' + order_no + ' ?',
+                'Yes',
+                'No',
+                () => {
+                    $.post("<?= base_url('admin/orders/download') ?>", {
+                            id: id,
+                            order_no: order_no
+                        })
+                        .done(function(data) {
+                            const photos = JSON.parse(data)
+                            photos.forEach((photo, index) => {
+                                console.log(photo.file_name)
+                                window.open('<?= base_url('admin/orders/photosdownload') ?>' + '?i=' + photo.file_name, 'dl' + index)
+                            })
+                        })
+                        .fail(function() {
+                            Notiflix.Loading.remove()
+                            Notiflix.Report.failure('Server Error',
+                                'Please check your connection and server status',
+                                'Okay', )
+                        })
+                },
+                () => {}, {},
+            );
+        }
+
+        function markAsFinished(id, order_no) {
+            Notiflix.Confirm.show('Mark Order As Finished',
+                'Do you want to mark order ' + order_no + ' as finished and move it to shipping table?',
+                'Yes',
+                'No',
+                () => {
+                    Notiflix.Loading.pulse()
+                    $.post("<?= base_url('admin/orders/finished') ?>", {
+                            id: id,
+                            order_no: order_no
+                        })
+                        .done(function(data) {
+                            fetchAllTable()
+                            Notiflix.Loading.remove(500)
+                            setTimeout(() => {
+                                if (data == "success") {
+                                    Notiflix.Notify.success("Order marked as finished and moved to shipping table")
+                                } else if (data == "notfound") {
+                                    Notiflix.Notify.failure("Order data not found")
+                                }
+                            }, 500)
+                        })
+                        .fail(function() {
+                            Notiflix.Loading.remove()
+                            Notiflix.Report.failure('Server Error',
+                                'Please check your connection and server status',
+                                'Okay', )
+                        })
+                },
+                () => {}, {},
+            );
         }
     </script>
 </body>

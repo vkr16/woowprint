@@ -8,6 +8,7 @@
         <th>Delete</th>
         <th>Edit</th>
         <th>Details</th>
+        <th>Download</th>
     </thead>
     <tbody>
         <?php
@@ -26,6 +27,8 @@
                 <td class="align-middle"><button class="btn btn-sm btn-success rounded-0" onclick="updateOrderModal('<?= $order['id'] ?>','<?= $order['order_no'] ?>','<?= $order['cust_name'] ?>','<?= $order['cust_phone'] ?>','<?= $order['cust_address'] ?>','<?= $order['description'] ?>','<?= $order['amount_photo'] ?>','<?= $order['status'] ?>')"><i class="fa-regular fa-pen-to-square"></i>&nbsp; Edit</button></td>
 
                 <td class="align-middle"><button class="btn btn-sm btn-primary rounded-0" onclick="detailModal('<?= $order['id'] ?>','<?= $order['order_no'] ?>','<?= $order['cust_name'] ?>','<?= $order['cust_phone'] ?>','<?= $order['cust_address'] ?>','<?= $order['description'] ?>','<?= $order['amount_photo'] ?>','<?= $order['status'] ?>')"><i class="fa-solid fa-circle-info"></i>&nbsp; Detail</button></td>
+
+                <td class="align-middle"><button class="btn btn-outline-primary btn-sm rounded-0" onclick="downloadFiles(<?= $order['id'] ?>,'<?= $order['order_no'] ?>')"><i class="fa-solid fa-download"></i>&nbsp; Download Photos</button></td>
             </tr>
         <?php
         }

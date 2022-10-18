@@ -190,4 +190,39 @@ class Admin extends BaseController
             }
         }
     }
+
+    public function ordersDownload()
+    {
+        $id = $_POST['id'];
+        $order_no = $_POST['order_no'];
+
+        if ($this->orderModel->where('id', $id)->where('order_no', $order_no)->find()) {
+            if ($photos = $this->photoModel->where('order_id', $id)->find()) {
+                return json_encode($photos);
+            }
+        }
+    }
+
+    public function photosDownload()
+    {
+        if (isset($_GET['i'])) {
+            $file_name = $_GET['i'];
+
+            return $this->response->download('public/uploads/' . $file_name, null);
+        }
+    }
+
+    public function ordersFinished()
+    {
+        $id = $_POST['id'];
+        $order_no = $_POST['order_no'];
+
+        if ($this->orderModel->where('id', $id)->where('order_no', $order_no)->find()) {
+            if ($this->orderModel->where('id', $id)->set('status', 'shipping')->update()) {
+                return "success";
+            }
+        } else {
+            return "notfound";
+        }
+    }
 }
