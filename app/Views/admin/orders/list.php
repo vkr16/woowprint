@@ -398,6 +398,48 @@
             $("#updateDescription").val(description)
             $("#updateAmountPhoto").val(amount_photo)
 
+
+            $('#updateOrderButton').attr('onclick', 'updateOrder(' + id + ')')
+        }
+
+        function updateOrder(id) {
+            const cust_name = $("#updateCustomerName").val()
+            const cust_phone = $("#updateCustomerPhone").val()
+            const cust_address = $("#updateCustomerAddress").val()
+            const description = $("#updateDescription").val()
+            const amount_photo = $("#updateAmountPhoto").val()
+            Notiflix.Loading.pulse()
+            $.post("<?= base_url('admin/orders/update') ?>", {
+                    id: id,
+                    cust_name: cust_name,
+                    cust_phone: cust_phone,
+                    cust_address: cust_address,
+                    description: description,
+                    amount_photo: amount_photo
+                })
+                .done(function(data) {
+                    console.log(data)
+                    fetchAllTable()
+                    Notiflix.Loading.remove(500)
+                    setTimeout(() => {
+                        if (data == "success") {
+                            Notiflix.Notify.success('Order data updated successfully!')
+                            $('#updateOrderModal').modal('hide')
+                        } else if (data == "notfound") {
+                            Notiflix.Notify.failure('Failed, order data not found!')
+                            $('#updateOrderModal').modal('hide')
+                        } else if (data == "empty") {
+                            Notiflix.Notify.failure('Field cannot be empty!')
+                        }
+                    }, 500)
+                })
+                .fail(function() {
+                    Notiflix.Loading.remove()
+                    Notiflix.Report.failure('Server Error',
+                        'Please check your connection and server status',
+                        'Okay', )
+                })
+
         }
     </script>
 </body>

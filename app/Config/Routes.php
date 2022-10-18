@@ -69,6 +69,7 @@ $routes->post('/admin/orders/shippinglist', 'Admin::ordersGetShipping');
 $routes->post('/admin/orders/completedlist', 'Admin::ordersGetCompleted');
 $routes->post('/admin/orders/add', 'Admin::ordersAdd');
 $routes->post('/admin/orders/delete', 'Admin::ordersDelete');
+$routes->post('/admin/orders/update', 'Admin::ordersUpdate');
 
 /**
  * Admins Management

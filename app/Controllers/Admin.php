@@ -139,4 +139,36 @@ class Admin extends BaseController
             return "notfound";
         }
     }
+
+    public function ordersUpdate()
+    {
+        $id = $_POST['id'];
+        $cust_name = trim($_POST['cust_name']);
+        $cust_phone = trim($_POST['cust_phone']);
+        $cust_address = trim($_POST['cust_address']);
+        $description = trim($_POST['description']);
+        $amount_photo = trim($_POST['amount_photo']);
+
+        $newOrderData = [
+            'cust_name' => $cust_name,
+            'cust_phone' => $cust_phone,
+            'cust_address' => $cust_address,
+            'description' => $description,
+            'amount_photo' => $amount_photo
+        ];
+
+        if ($cust_name == '' || $cust_phone == '' || $cust_address == '' || $description == '' || $amount_photo == '') {
+            return "empty";
+        } else {
+            if ($this->orderModel->find($id)) {
+                if ($this->orderModel->where('id', $id)->set($newOrderData)->update()) {
+                    return "success";
+                } else {
+                    return "failed";
+                }
+            } else {
+                return "notfound";
+            }
+        }
+    }
 }
