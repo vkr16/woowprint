@@ -197,6 +197,31 @@
         </div>
     </div>
 
+    <!-- Status Update Modal -->
+    <div class="modal fade" id="updateStatusModal" tabindex="-1" aria-labelledby="updateStatusModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-0">
+                <div class="modal-body" id="modalBodyUpdateEmployee">
+                    <div class="mb-3">
+                        <label for="updateStatus">Change Order Status (current: <span id="currentStatus"></span>)</label>
+                        <select id="updateStatus" class="form-select mt-2">
+                            <option value="uploading">Uploading</option>
+                            <option value="queued">Queued</option>
+                            <option value="processing">Processing</option>
+                            <option value="shipping">Shipping</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary rounded-0" id="updateOrderStatusButton"><i class="fa-solid fa-floppy-disk"></i>&nbsp; Save</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <?= $this->include('components/scripts') ?>
 
 
@@ -418,7 +443,6 @@
                     amount_photo: amount_photo
                 })
                 .done(function(data) {
-                    console.log(data)
                     fetchAllTable()
                     Notiflix.Loading.remove(500)
                     setTimeout(() => {
@@ -428,6 +452,44 @@
                         } else if (data == "notfound") {
                             Notiflix.Notify.failure('Failed, order data not found!')
                             $('#updateOrderModal').modal('hide')
+                        } else if (data == "empty") {
+                            Notiflix.Notify.failure('Field cannot be empty!')
+                        }
+                    }, 500)
+                })
+                .fail(function() {
+                    Notiflix.Loading.remove()
+                    Notiflix.Report.failure('Server Error',
+                        'Please check your connection and server status',
+                        'Okay', )
+                })
+        }
+
+        function updateStatusModal(id, order_no, status) {
+            $('#updateStatusModal').modal('show')
+            $('#updateStatus').val(status).change()
+            $('#updateOrderStatusButton').attr('onclick', 'updateStatus(' + id + ',"' + order_no + '")')
+            $('#currentStatus').html(status)
+        }
+
+        function updateStatus(id, order_no) {
+            const status = $('#updateStatus').val()
+            Notiflix.Loading.pulse()
+            $.post("<?= base_url('admin/orders/updatestatus') ?>", {
+                    id: id,
+                    status: status,
+                    order_no: order_no
+                })
+                .done(function(data) {
+                    fetchAllTable()
+                    Notiflix.Loading.remove(500)
+                    setTimeout(() => {
+                        if (data == "success") {
+                            Notiflix.Notify.success('Order status has been updated, order has been moved to related table')
+                            $('#updateStatusModal').modal('hide')
+                        } else if (data == "notfound") {
+                            Notiflix.Notify.failure('Failed, order data not found!')
+                            $('#updateStatusModal').modal('hide')
                         } else if (data == "empty") {
                             Notiflix.Notify.failure('Field cannot be empty!')
                         }

@@ -171,4 +171,23 @@ class Admin extends BaseController
             }
         }
     }
+
+    public function ordersUpdateStatus()
+    {
+        $id = $_POST['id'];
+        $order_no = trim($_POST['order_no']);
+        $status = trim($_POST['status']);
+
+        if ($order_no == '' || $status == '') {
+            return "empty";
+        } else {
+            if ($this->orderModel->where('order_no', $order_no)->where('id', $id)->find()) {
+                if ($this->orderModel->where('id', $id)->set('status', $status)->update()) {
+                    return "success";
+                }
+            } else {
+                return "notfound";
+            }
+        }
+    }
 }

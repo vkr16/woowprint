@@ -34,7 +34,7 @@
                         <td>
                             <?php
                             if ($order[0]['status'] == 'uploading') {
-                                echo "Mengunggah Foto";
+                                echo "Mengunggah Gambar";
                             } else if ($order[0]['status'] == 'queued') {
                                 echo "Dalam Antrian";
                             } else if ($order[0]['status'] == 'processing') {
@@ -53,7 +53,7 @@
                         <td><?= $order[0]['description'] ?></td>
                     </tr>
                     <tr>
-                        <td class="ps-0" style="width: 140px">Foto Diunggah</td>
+                        <td class="ps-0" style="width: 140px">Gambar Diunggah</td>
                         <td style="width: 20px">:</td>
                         <td><?= $uploaded ?> dari <?= $order[0]['amount_photo'] ?></td>
                     </tr>
@@ -65,7 +65,7 @@
                 ?>
                     <section class="mb-3" id="upload-section">
                         <form action="<?= base_url('order/upload') ?>?i=<?= $order[0]['token'] ?>" id="formUploadPhoto" method="POST" enctype="multipart/form-data">
-                            <label for="formFile" class="form-label">Unggah Foto</label>
+                            <label for="formFile" class="form-label">Unggah Gambar / Foto</label>
                             <div class="row mx-0">
                                 <span class="col-md-10 px-0 mb-2">
                                     <input class="form-control" type="file" id="formFile" name="photo" required accept="image/*">
