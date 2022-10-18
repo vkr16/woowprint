@@ -122,4 +122,21 @@ class Admin extends BaseController
             }
         }
     }
+
+    public function ordersDelete()
+    {
+        $id = $_POST['id'];
+        $order_no = $_POST['order_no'];
+
+        if ($order = $this->orderModel->where('order_no', $order_no)->where('id', $id)->find()) {
+            if ($this->orderModel->delete($id)) {
+                $photos = $this->photoModel->where('order_id', $order[0]['id'])->find();
+                foreach ($photos as $key => $photo) {
+                    unlink('public/uploads/' . $photo['file_name']);
+                }
+            }
+        } else {
+            return "notfound";
+        }
+    }
 }

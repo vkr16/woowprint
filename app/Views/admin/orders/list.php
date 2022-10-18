@@ -72,6 +72,7 @@
                         <div class="mb-3">
                             <label for="inputCustomerPhone">Customer Phone</label>
                             <input type="number" class="form-control my-2" name="inputCustomerPhone" id="inputCustomerPhone">
+                            <small>Please use international format (eg. 6281234567890)</small>
                         </div>
                         <div class="mb-3">
                             <label for="inputCustomerAddress">Customer Address</label>
@@ -91,6 +92,106 @@
 
                     <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary rounded-0" onclick="addOrder()"><i class="fa-solid fa-floppy-disk"></i>&nbsp; Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Order Modal -->
+    <div class="modal fade" id="updateOrderModal" tabindex="-1" aria-labelledby="updateOrderModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-0">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="updateOrderModalLabel">
+                        <i class="fa-solid fa-file-circle-plus"></i>&nbsp; Add New Order
+                    </h1>
+                    <button type="button" class="btn-close rounded-0 noglow" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBodyUpdateEmployee">
+                    <form>
+                        <div class="mb-3">
+                            <label for="updateCustomerName">Customer Name</label>
+                            <input type="text" class="form-control my-2" name="updateCustomerName" id="updateCustomerName">
+                        </div>
+                        <div class="mb-3">
+                            <label for="updateCustomerPhone">Customer Phone</label>
+                            <input type="number" class="form-control my-2" name="updateCustomerPhone" id="updateCustomerPhone">
+                            <small>Please use international format (eg. 6281234567890)</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="updateCustomerAddress">Customer Address</label>
+                            <textarea class="form-control my-2" name="updateCustomerAddress" id="updateCustomerAddress"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="updateDescription">Order Note / Description</label>
+                            <textarea class="form-control my-2" name="updateDescription" id="updateDescription"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="updateAmountPhoto">Number of photos</label>
+                            <input type="number" class="form-control my-2" name="updateAmountPhoto" id="updateAmountPhoto">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary rounded-0" id="updateOrderButton"><i class="fa-solid fa-floppy-disk"></i>&nbsp; Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detail Order Modal -->
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-0">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="detailModalLabel">
+                        <i class="fa-solid fa-info-circle"></i>&nbsp; Order Details
+                    </h1>
+                    <button type="button" class="btn-close rounded-0 noglow" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modalBodyUpdateEmployee">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td style="width: 170px">Order No.</td>
+                            <td style="width: 20px">:&emsp;</td>
+                            <td id="showOrderNo"></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 170px">Customer Name</td>
+                            <td style="width: 20px">:&emsp;</td>
+                            <td id="showCustomerName"></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 170px">Customer Phone</td>
+                            <td style="width: 20px">:&emsp;</td>
+                            <td id="showCustomerPhone"></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 170px">Customer Address</td>
+                            <td style="width: 20px">:&emsp;</td>
+                            <td id="showCustomerAddress"></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 170px">Description</td>
+                            <td style="width: 20px">:&emsp;</td>
+                            <td id="showDescription"></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 170px">Number of Photos</td>
+                            <td style="width: 20px">:&emsp;</td>
+                            <td id="showAmountPhoto"></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 170px">Order Status</td>
+                            <td style="width: 20px">:&emsp;</td>
+                            <td id="showStatus"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -219,7 +320,7 @@
                             } else if (data == "failed") {
                                 Notiflix.Notify.failure("FAILED! INTERNAL SERVER ERROR!")
                             }
-                        }, 500);
+                        }, 500)
                     })
                     .fail(function() {
                         Notiflix.Loading.remove()
@@ -228,6 +329,75 @@
                             'Okay', )
                     })
             }
+        }
+
+        function deleteOrder(id, order_no) {
+            Notiflix.Confirm.show(
+                'Delete Order ' + order_no,
+                'Are you sure want to delete this order? it will delete uploaded photos of this order as well',
+                'Yes',
+                'No',
+                () => {
+                    Notiflix.Loading.pulse()
+                    $.post("<?= base_url('admin/orders/delete') ?>", {
+                            id: id,
+                            order_no: order_no
+                        })
+                        .done(function(data) {
+                            fetchAllTable()
+                            Notiflix.Loading.remove(500)
+                            console.log(data)
+                            setTimeout(function() {
+                                if (data == "success") {
+                                    Notiflix.Notify.success("Order data deleted!")
+                                } else if (data == "notfound") {
+                                    Notiflix.Notify.failure("Order data not found")
+                                }
+                            }, 500)
+                        })
+                        .fail(function() {
+                            Notiflix.Loading.remove()
+                            Notiflix.Report.failure('Server Error',
+                                'Please check your connection and server status',
+                                'Okay', )
+                        })
+                },
+                () => {}, {},
+            );
+        }
+
+        function detailModal(id, order_no, cust_name, cust_phone, cust_address, description, amount_photo, status) {
+            $('#detailModal').modal('show')
+            var stat = ''
+            $('#showOrderNo').html(order_no)
+            $('#showCustomerName').html(cust_name)
+            $('#showCustomerPhone').html(cust_phone)
+            $('#showCustomerAddress').html(cust_address)
+            $('#showDescription').html(description)
+            $('#showAmountPhoto').html(amount_photo)
+            if (status == 'uploading') {
+                stat = 'Uploading';
+            } else if (status == 'queued') {
+                stat = 'Queued'
+            } else if (status == 'processing') {
+                stat = 'Processing'
+            } else if (status == 'shipping') {
+                stat = 'Shipping'
+            } else if (status == 'completed') {
+                stat = 'Completed'
+            }
+            $('#showStatus').html(stat)
+        }
+
+        function updateOrderModal(id, order_no, cust_name, cust_phone, cust_address, description, amount_photo, status) {
+            $('#updateOrderModal').modal('show')
+
+            $("#updateCustomerName").val(cust_name)
+            $("#updateCustomerPhone").val(cust_phone)
+            $("#updateCustomerAddress").val(cust_address)
+            $("#updateDescription").val(description)
+            $("#updateAmountPhoto").val(amount_photo)
+
         }
     </script>
 </body>

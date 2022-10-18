@@ -224,7 +224,10 @@
                                     id: '<?= $order[0]['id'] ?>'
                                 })
                                 .done(function(data) {
-                                    console.log(data)
+                                    Notiflix.Notify.success("Pesanan berhasil dimasukkan kedalam antrian")
+                                    setTimeout(() => {
+                                        window.location.reload()
+                                    }, 1500);
                                 });
                         },
                         () => {}, {},
