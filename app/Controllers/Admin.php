@@ -246,4 +246,36 @@ class Admin extends BaseController
             return "notfound";
         }
     }
+
+
+    /**
+     * Admin Management
+     */
+    public function administrators()
+    {
+        $data['administrators'] = $this->adminModel->findAll();
+        return view('admin/administrators/list', $data);
+    }
+
+    public function administratorsAdd()
+    {
+        $name = trim($_POST['inputName']);
+        $username = trim($_POST['inputUsername']);
+        $password = trim($_POST['inputPassword']);
+
+        $newData = [
+            'name' => $name,
+            'username' => $username,
+            'password' => password_hash($password, PASSWORD_DEFAULT)
+        ];
+
+        if (!$this->adminModel->where('username', $username)->find()) {
+            if ($this->adminModel->insert($newData)) {
+                $this->session->setFlashdata('adminAddSuccess', 'New admin has been added');
+            }
+        } else {
+            $this->session->setFlashdata('adminAddFailed', 'Username already taken');
+        }
+        return redirect()->to(base_url('admin/administrators'));
+    }
 }

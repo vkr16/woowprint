@@ -80,6 +80,7 @@ $routes->post('/admin/orders/completed', 'Admin::ordersCompleted');
  * Admins Management
  */
 $routes->get('/admin/administrators', 'Admin::administrators');
+$routes->post('/admin/administrators/add', 'Admin::administratorsAdd');
 
 
 
