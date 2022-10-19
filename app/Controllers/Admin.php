@@ -278,4 +278,23 @@ class Admin extends BaseController
         }
         return redirect()->to(base_url('admin/administrators'));
     }
+
+    public function administratorsReset()
+    {
+        $id = $_POST['adminId'];
+        $password = trim($_POST['inputPassword2']);
+
+        if ($password != '') {
+            if ($this->adminModel->find($id)) {
+                if ($this->adminModel->where('id', $id)->set('password', password_hash($password, PASSWORD_DEFAULT))->update()) {
+                    $this->session->setFlashdata('passResetSuccess', 'Password has been reset');
+                }
+            } else {
+                $this->session->setFlashdata('passResetFailed', 'Administrator not found');
+            }
+        } else {
+            $this->session->setFlashdata('passResetFailed', 'Password cannot be empty');
+        }
+        return redirect()->to(base_url('admin/administrators'));
+    }
 }

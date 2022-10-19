@@ -109,24 +109,24 @@
                     <button type="button" class="btn-close rounded-0 noglow" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form action="<?= base_url('admin/administrators/reset') ?>" method="POST">
                         <div class="mb-3">
                             <label for="showAdministrator">Administrator</label>
                             <input type="text" autocomplete="off" class="form-control mt-2" name="showAdministrator" id="showAdministrator" disabled>
                         </div>
                         <div class="mb-3">
                             <label for="inputPassword2">New Password</label>
-                            <input type="password" autocomplete="new-password" class="form-control my-2" name="inputPassword2" id="inputPassword2">
+                            <input required type="password" autocomplete="new-password" class="form-control my-2" name="inputPassword2" id="inputPassword2">
                         </div>
                         <div class="mb-3 d-flex align-items-center me-auto">
                             <input type="checkbox" class="form-check-input rounded-0 mt-0" id="checkShowPassword2" onchange="inputPasswordVisible2()">
                             <label for="checkShowPassword2" class="form-label mb-0 ms-2">Show password</label>
                         </div>
-                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary rounded-0" id="resetPasswordButton"><i class="fa-solid fa-floppy-disk"></i>&nbsp; Set Password</button>
+                    <button type="submit" class="btn btn-primary rounded-0" id="resetPasswordButton" name="adminId"><i class="fa-solid fa-floppy-disk"></i>&nbsp; Set Password</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -166,10 +166,25 @@
             }
         }
 
+        function inputPasswordVisible2() {
+            if ($('#inputPassword2').attr('type') == 'password') {
+                $('#inputPassword2').attr('type', 'text')
+            } else {
+                $('#inputPassword2').attr('type', 'password')
+            }
+        }
+
         <?php
         if (isset($_SESSION['adminAddSuccess'])) {
         ?>
             Notiflix.Notify.success("<?= $_SESSION['adminAddSuccess'] ?>")
+        <?php
+        }
+        ?>
+        <?php
+        if (isset($_SESSION['passResetSuccess'])) {
+        ?>
+            Notiflix.Notify.success("<?= $_SESSION['passResetSuccess'] ?>")
         <?php
         }
         ?>
@@ -180,6 +195,21 @@
         <?php
         }
         ?>
+
+        <?php
+        if (isset($_SESSION['passResetFailed'])) {
+        ?>
+            Notiflix.Notify.failure("<?= $_SESSION['passResetFailed'] ?>")
+        <?php
+        }
+        ?>
+
+        function resetPasswordModal(id, name, employee_number) {
+            $('#modalResetPasswordAdministrator').modal('show')
+            $('#showAdministrator').val(name)
+
+            $('#resetPasswordButton').attr('value', id)
+        }
     </script>
 </body>
 
