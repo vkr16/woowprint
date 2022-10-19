@@ -225,4 +225,18 @@ class Admin extends BaseController
             return "notfound";
         }
     }
+
+    public function ordersCompleted()
+    {
+        $id = $_POST['id'];
+        $order_no = $_POST['order_no'];
+
+        if ($this->orderModel->where('id', $id)->where('order_no', $order_no)->find()) {
+            if ($this->orderModel->where('id', $id)->set('status', 'completed')->update()) {
+                return "success";
+            }
+        } else {
+            return "notfound";
+        }
+    }
 }

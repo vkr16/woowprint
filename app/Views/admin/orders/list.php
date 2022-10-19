@@ -561,6 +561,47 @@
                 () => {}, {},
             );
         }
+
+        function markAsCompleted(id, order_no) {
+
+            Notiflix.Report.info(
+                'Mark Order As Completed',
+                'Marking an order as complete will delete all photos related to this order',
+                'Understand',
+                () => {
+                    Notiflix.Confirm.show('Mark Order As Completed',
+                        'Do you want to mark order ' + order_no + ' as completed and move it to completed order table?',
+                        'Yes',
+                        'No',
+                        () => {
+                            Notiflix.Loading.pulse()
+                            $.post("<?= base_url('admin/orders/completed') ?>", {
+                                    id: id,
+                                    order_no: order_no
+                                })
+                                .done(function(data) {
+                                    fetchAllTable()
+                                    Notiflix.Loading.remove(500)
+                                    setTimeout(() => {
+                                        if (data == "success") {
+                                            Notiflix.Notify.success("Order marked as completed and moved to completed order table")
+                                        } else if (data == "notfound") {
+                                            Notiflix.Notify.failure("Order data not found")
+                                        }
+                                    }, 500)
+                                })
+                                .fail(function() {
+                                    Notiflix.Loading.remove()
+                                    Notiflix.Report.failure('Server Error',
+                                        'Please check your connection and server status',
+                                        'Okay', )
+                                })
+                        },
+                        () => {}, {},
+                    );
+                },
+            );
+        }
     </script>
 </body>
 
