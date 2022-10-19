@@ -1,12 +1,12 @@
 <table id="uploading_table" class="table table-hoverable mt-5">
     <thead>
-        <th>No</th>
-        <th>Order No.</th>
-        <th>Customer Name</th>
-        <th>Customer Phone</th>
-        <th>Uploaded</th>
-        <th>Order Date</th>
-        <th>Option</th>
+        <th style="white-space: nowrap">No</th>
+        <th style="white-space: nowrap">Order No.</th>
+        <th style="white-space: nowrap">Customer Name</th>
+        <th style="white-space: nowrap">Customer Phone</th>
+        <th style="white-space: nowrap">Uploaded</th>
+        <th style="white-space: nowrap">Order Date</th>
+        <th style="white-space: nowrap">Option</th>
     </thead>
     <tbody>
         <?php

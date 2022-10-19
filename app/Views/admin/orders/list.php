@@ -41,11 +41,11 @@
                     </li>
                 </ul>
                 <div class="tab-content" id="orderTabsContent">
-                    <div class="tab-pane fade pt-4 show active" id="uploading-tab-pane" role="tabpanel" aria-labelledby="uploading-tab" tabindex="0"></div>
-                    <div class="tab-pane fade pt-4" id="queued-tab-pane" role="tabpanel" aria-labelledby="queued-tab" tabindex="0"></div>
-                    <div class="tab-pane fade pt-4" id="processing-tab-pane" role="tabpanel" aria-labelledby="processing-tab" tabindex="0"></div>
-                    <div class="tab-pane fade pt-4" id="shipping-tab-pane" role="tabpanel" aria-labelledby="shipping-tab" tabindex="0"></div>
-                    <div class="tab-pane fade pt-4" id="completed-tab-pane" role="tabpanel" aria-labelledby="completed-tab" tabindex="0"></div>
+                    <div class="tab-pane fade pt-4 table-responsive show active" id="uploading-tab-pane" role="tabpanel" aria-labelledby="uploading-tab" tabindex="0"></div>
+                    <div class="tab-pane fade pt-4 table-responsive" id="queued-tab-pane" role="tabpanel" aria-labelledby="queued-tab" tabindex="0"></div>
+                    <div class="tab-pane fade pt-4 table-responsive" id="processing-tab-pane" role="tabpanel" aria-labelledby="processing-tab" tabindex="0"></div>
+                    <div class="tab-pane fade pt-4 table-responsive" id="shipping-tab-pane" role="tabpanel" aria-labelledby="shipping-tab" tabindex="0"></div>
+                    <div class="tab-pane fade pt-4 table-responsive" id="completed-tab-pane" role="tabpanel" aria-labelledby="completed-tab" tabindex="0"></div>
                 </div>
             </div>
         </section>
