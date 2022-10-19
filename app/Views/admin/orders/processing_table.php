@@ -19,7 +19,7 @@
                 <td class="align-middle"><?= date("d M Y", $order['created_at']) ?></td>
 
 
-                <td class="align-middle">
+                <td class="align-middle col-5">
                     <button class="btn btn-sm btn-primary rounded-0 me-2 my-1" onclick="markAsFinished(<?= $order['id'] ?>,'<?= $order['order_no'] ?>')"><i class="fa-solid fa-flag-checkered"></i>&nbsp; Mark As Finished</button>
 
                     <button class="btn btn-sm btn-primary rounded-0 me-2 my-1" onclick="detailModal('<?= $order['id'] ?>','<?= $order['order_no'] ?>','<?= $order['cust_name'] ?>','<?= $order['cust_phone'] ?>','<?= $order['cust_address'] ?>','<?= $order['description'] ?>','<?= $order['amount_photo'] ?>','<?= $order['status'] ?>')"><i class="fa-solid fa-circle-info"></i>&nbsp; Detail</button>

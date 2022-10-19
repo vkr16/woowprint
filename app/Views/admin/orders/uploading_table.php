@@ -20,7 +20,7 @@
                 <td class="align-middle"><?= $order['uploaded'] ?> / <?= $order['amount_photo'] ?></td>
                 <td class="align-middle"><?= date("d M Y", $order['created_at']) ?></td>
 
-                <td class="align-middle">
+                <td class="align-middle col-5">
                     <button class="btn btn-sm btn-danger rounded-0 me-2 my-1" onclick="deleteOrder(<?= $order['id'] ?>,'<?= $order['order_no'] ?>')"><i class="fa-solid fa-trash-can"></i>&nbsp; Delete</button>
 
                     <button class="btn btn-sm btn-success rounded-0 me-2 my-1" onclick="updateOrderModal('<?= $order['id'] ?>','<?= $order['order_no'] ?>','<?= $order['cust_name'] ?>','<?= $order['cust_phone'] ?>','<?= $order['cust_address'] ?>','<?= $order['description'] ?>','<?= $order['amount_photo'] ?>','<?= $order['status'] ?>')"><i class="fa-regular fa-pen-to-square"></i>&nbsp; Edit</button>

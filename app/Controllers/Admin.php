@@ -132,6 +132,7 @@ class Admin extends BaseController
             if ($this->orderModel->delete($id)) {
                 $photos = $this->photoModel->where('order_id', $order[0]['id'])->find();
                 foreach ($photos as $key => $photo) {
+                    $this->photoModel->delete($photo['id']);
                     unlink('public/uploads/' . $photo['file_name']);
                 }
             }
@@ -233,6 +234,12 @@ class Admin extends BaseController
 
         if ($this->orderModel->where('id', $id)->where('order_no', $order_no)->find()) {
             if ($this->orderModel->where('id', $id)->set('status', 'completed')->update()) {
+                $photos = $this->photoModel->where('order_id', $id)->find();
+
+                foreach ($photos as $key => $photo) {
+                    $this->photoModel->delete($photo['id']);
+                    unlink('public/uploads/' . $photo['file_name']);
+                }
                 return "success";
             }
         } else {
