@@ -21,7 +21,7 @@ class Admin extends BaseController
 
     public function index()
     {
-        return view('admin/dashboard');
+        return redirect()->to(base_url('admin/orders'));
     }
 
     /**
