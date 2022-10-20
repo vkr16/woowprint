@@ -82,6 +82,8 @@ $routes->post('/admin/orders/completed', 'Admin::ordersCompleted');
 $routes->get('/admin/administrators', 'Admin::administrators');
 $routes->post('/admin/administrators/add', 'Admin::administratorsAdd');
 $routes->post('/admin/administrators/reset', 'Admin::administratorsReset');
+$routes->post('/admin/administrators/update', 'Admin::administratorsUpdate');
+$routes->get('/admin/administrators/delete', 'Admin::administratorsDelete');
 
 
 

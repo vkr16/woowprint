@@ -45,7 +45,7 @@
                                     <td class="align-middle">
                                         <button class="btn btn-danger btn-sm rounded-0 me-2 my-1" onclick="deleteAdministrator(<?= $administrator['id'] ?>,'<?= $administrator['name'] ?>')" <?= $administrator['id'] == $_SESSION['oms_cetakfoto_user_session'] ? 'disabled' : '' ?>><i class="fa-solid fa-trash-alt"></i>&nbsp; Delete</button>
 
-                                        <button class="btn btn-primary btn-sm rounded-0 me-2 my-1" onclick="resetPasswordModal(<?= $administrator['id'] ?>,'<?= $administrator['name'] ?>')"><i class="fa-solid fa-user-edit"></i>&nbsp; Edit</button>
+                                        <button class="btn btn-primary btn-sm rounded-0 me-2 my-1" onclick="adminEditModal(<?= $administrator['id'] ?>,'<?= $administrator['name'] ?>','<?= $administrator['username'] ?>')"><i class="fa-solid fa-user-edit"></i>&nbsp; Edit</button>
 
                                         <button class="btn btn-primary btn-sm rounded-0 me-2 my-1" onclick="resetPasswordModal(<?= $administrator['id'] ?>,'<?= $administrator['name'] ?>')"><i class="fa-solid fa-unlock-keyhole"></i>&nbsp; Reset Password</button>
                                     </td>
@@ -132,6 +132,38 @@
         </div>
     </div>
 
+    <!-- Administrator Update Modal -->
+    <div class="modal fade" id="modalAdminEdit" tabindex="-1" aria-labelledby="modalAdminEditLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-0">
+                <form action="<?= base_url('admin/administrators/update') ?>" method="POST">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalAdminEditLabel">
+                            <i class="fa-solid fa-user-edit"></i>&nbsp; Edit Admin
+                        </h1>
+                        <button type="button" class="btn-close rounded-0 noglow" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="inputName2">Name</label>
+                            <input type="text" autocomplete="name" class="form-control my-2" name="inputName2" id="inputName2">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputUsername2">Username</label>
+                            <input type="text" autocomplete="username" class="form-control my-2" name="inputUsername2" id="inputUsername2">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary rounded-0" id="editAdminButton" name="adminId"><i class="fa-solid fa-floppy-disk"></i>&nbsp; Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
     <?= $this->include('components/scripts') ?>
     <script src="<?= base_url('public/assets/library/datatables-1.12.1/datatables.min.js') ?>"></script>
     <script src="<?= base_url('public/assets/library/bootstrap-select-1.14.0/js/bootstrap-select.min.js') ?>"></script>
@@ -175,31 +207,15 @@
         }
 
         <?php
-        if (isset($_SESSION['adminAddSuccess'])) {
+        if (isset($_SESSION['ReturnSuccess'])) {
         ?>
-            Notiflix.Notify.success("<?= $_SESSION['adminAddSuccess'] ?>")
+            Notiflix.Notify.success("<?= $_SESSION['ReturnSuccess'] ?>")
         <?php
         }
-        ?>
-        <?php
-        if (isset($_SESSION['passResetSuccess'])) {
-        ?>
-            Notiflix.Notify.success("<?= $_SESSION['passResetSuccess'] ?>")
-        <?php
-        }
-        ?>
-        <?php
-        if (isset($_SESSION['adminAddFailed'])) {
-        ?>
-            Notiflix.Notify.failure("<?= $_SESSION['adminAddFailed'] ?>")
-        <?php
-        }
-        ?>
 
-        <?php
-        if (isset($_SESSION['passResetFailed'])) {
+        if (isset($_SESSION['ReturnFailed'])) {
         ?>
-            Notiflix.Notify.failure("<?= $_SESSION['passResetFailed'] ?>")
+            Notiflix.Notify.failure("<?= $_SESSION['ReturnFailed'] ?>")
         <?php
         }
         ?>
@@ -209,6 +225,18 @@
             $('#showAdministrator').val(name)
 
             $('#resetPasswordButton').attr('value', id)
+        }
+
+        function adminEditModal(id, name, username) {
+            $('#modalAdminEdit').modal('show')
+
+            $('#inputName2').val(name)
+            $('#inputUsername2').val(username)
+            $('#editAdminButton').attr('value', id)
+        }
+
+        function deleteAdmin(id, name) {
+
         }
     </script>
 </body>

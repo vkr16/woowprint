@@ -271,10 +271,10 @@ class Admin extends BaseController
 
         if (!$this->adminModel->where('username', $username)->find()) {
             if ($this->adminModel->insert($newData)) {
-                $this->session->setFlashdata('adminAddSuccess', 'New admin has been added');
+                $this->session->setFlashdata('ReturnSuccess', 'New admin has been added');
             }
         } else {
-            $this->session->setFlashdata('adminAddFailed', 'Username already taken');
+            $this->session->setFlashdata('ReturnFailed', 'Username already taken');
         }
         return redirect()->to(base_url('admin/administrators'));
     }
@@ -287,14 +287,40 @@ class Admin extends BaseController
         if ($password != '') {
             if ($this->adminModel->find($id)) {
                 if ($this->adminModel->where('id', $id)->set('password', password_hash($password, PASSWORD_DEFAULT))->update()) {
-                    $this->session->setFlashdata('passResetSuccess', 'Password has been reset');
+                    $this->session->setFlashdata('ReturnSuccess', 'Password has been reset');
                 }
             } else {
-                $this->session->setFlashdata('passResetFailed', 'Administrator not found');
+                $this->session->setFlashdata('ReturnFailed', 'Administrator not found');
             }
         } else {
-            $this->session->setFlashdata('passResetFailed', 'Password cannot be empty');
+            $this->session->setFlashdata('ReturnFailed', 'Password cannot be empty');
         }
         return redirect()->to(base_url('admin/administrators'));
+    }
+
+    public function administratorsUpdate()
+    {
+        $id = trim($_POST['adminId']);
+        $name = trim($_POST['inputName2']);
+        $username = trim($_POST['inputUsername2']);
+
+        $newData = [
+            'name' => $name,
+            'username' => $username,
+        ];
+
+        if ($this->adminModel->where('username', $username)->where('id <>', $id)->find()) {
+            $this->session->setFlashdata('ReturnFailed', 'Username already taken');
+        } else {
+            if ($this->adminModel->where('id', $id)->set($newData)->update()) {
+                $this->session->setFlashdata('ReturnSuccess', 'Admin data has been updated');
+            }
+        }
+        return redirect()->to(base_url('admin/administrators'));
+    }
+
+    public function administratorsDelete()
+    {
+        $id = $_GET['id'];
     }
 }
