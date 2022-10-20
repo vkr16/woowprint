@@ -43,7 +43,7 @@
                                     <td class="align-middle"><?= $administrator['name'] ?></td>
                                     <td class="align-middle"><?= $administrator['username'] ?></td>
                                     <td class="align-middle">
-                                        <button class="btn btn-danger btn-sm rounded-0 me-2 my-1" onclick="deleteAdministrator(<?= $administrator['id'] ?>,'<?= $administrator['name'] ?>')" <?= $administrator['id'] == $_SESSION['oms_cetakfoto_user_session'] ? 'disabled' : '' ?>><i class="fa-solid fa-trash-alt"></i>&nbsp; Delete</button>
+                                        <button class="btn btn-danger btn-sm rounded-0 me-2 my-1" onclick="deleteAdmin(<?= $administrator['id'] ?>,'<?= $administrator['name'] ?>')" <?= $administrator['id'] == $_SESSION['oms_cetakfoto_user_session'] ? 'disabled' : '' ?>><i class="fa-solid fa-trash-alt"></i>&nbsp; Delete</button>
 
                                         <button class="btn btn-primary btn-sm rounded-0 me-2 my-1" onclick="adminEditModal(<?= $administrator['id'] ?>,'<?= $administrator['name'] ?>','<?= $administrator['username'] ?>')"><i class="fa-solid fa-user-edit"></i>&nbsp; Edit</button>
 
@@ -236,7 +236,16 @@
         }
 
         function deleteAdmin(id, name) {
-
+            Notiflix.Confirm.show(
+                'Delete Admin',
+                'Are you sure want to remove ' + name + ' from admin list?',
+                'Yes',
+                'No',
+                () => {
+                    window.location.href = "<?= base_url('admin/administrators/delete') ?>?id=" + id;
+                },
+                () => {}, {},
+            );
         }
     </script>
 </body>

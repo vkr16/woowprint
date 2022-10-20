@@ -110,8 +110,7 @@ class Admin extends BaseController
                     "cust_address" => $cust_address,
                     "description" => $description,
                     "amount_photo" => $amount_photo,
-                    "status" => 'uploading',
-                    "order_maker" => $this->session->get('oms_cetakfoto_user_session')
+                    "status" => 'uploading'
                 ];
 
                 if ($this->orderModel->insert($newOrder)) {
@@ -135,6 +134,7 @@ class Admin extends BaseController
                     $this->photoModel->delete($photo['id']);
                     unlink('public/uploads/' . $photo['file_name']);
                 }
+                return "success";
             }
         } else {
             return "notfound";
@@ -322,5 +322,14 @@ class Admin extends BaseController
     public function administratorsDelete()
     {
         $id = $_GET['id'];
+
+        if ($this->adminModel->find($id)) {
+            if ($this->adminModel->delete($id)) {
+                $this->session->setFlashdata('ReturnSuccess', 'Admin data has been deleted');
+            }
+        } else {
+            $this->session->setFlashdata('ReturnFailed', 'Admin data not found');
+        }
+        return redirect()->to(base_url('admin/administrators'));
     }
 }
