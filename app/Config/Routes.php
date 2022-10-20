@@ -75,6 +75,7 @@ $routes->post('/admin/orders/download', 'Admin::ordersDownload');
 $routes->get('/admin/orders/photosdownload', 'Admin::photosDownload');
 $routes->post('/admin/orders/finished', 'Admin::ordersFinished');
 $routes->post('/admin/orders/completed', 'Admin::ordersCompleted');
+$routes->get('/admin/orders/deliverynote', 'Admin::ordersDeliveryNote');
 
 /**
  * Admins Management

@@ -22,7 +22,7 @@
 
                     <button class="btn btn-sm btn-primary rounded-0 me-2 my-1" onclick="detailModal('<?= $order['id'] ?>','<?= $order['order_no'] ?>','<?= $order['cust_name'] ?>','<?= $order['cust_phone'] ?>','<?= $order['cust_address'] ?>','<?= $order['description'] ?>','<?= $order['amount_photo'] ?>','<?= $order['status'] ?>')"><i class="fa-solid fa-circle-info"></i>&nbsp; Detail</button>
 
-                    <button class="btn btn-primary btn-sm rounded-0  me-2 my-1"><i class="fa-solid fa-truck-fast"></i>&nbsp; Delivery Notes</button>
+                    <a target="printdeliverynote" href="<?= base_url('admin/orders/deliverynote') ?>?i=<?= $order['order_no'] ?>" class="btn btn-primary btn-sm rounded-0  me-2 my-1"><i class="fa-solid fa-truck-fast"></i>&nbsp; Delivery Notes</a>
 
                     <button class="btn btn-outline-primary btn-sm rounded-0  me-2 my-1" onclick="downloadFiles(<?= $order['id'] ?>,'<?= $order['order_no'] ?>')"><i class="fa-solid fa-download"></i>&nbsp; Download Photos</button>
                 </td>

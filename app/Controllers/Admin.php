@@ -268,6 +268,21 @@ class Admin extends BaseController
         }
     }
 
+    public function ordersDeliveryNote()
+    {
+        $order_no = $_GET['i'];
+
+
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT * FROM shipping WHERE id = '1'");
+
+        $data['sender'] = $query->getResult('array');
+
+        $data['order'] = $this->orderModel->where('order_no', $order_no)->find();
+
+        return view('admin/orders/delivery_note', $data);
+    }
+
 
     /**
      * Admin Management
