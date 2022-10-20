@@ -24,12 +24,33 @@ class Admin extends BaseController
         return redirect()->to(base_url('admin/orders'));
     }
 
+    public function shippingConfig()
+    {
+        $name = $_POST['updateSenderName'];
+        $phone = $_POST['updateSenderPhone'];
+        $address = $_POST['updateSenderAddress'];
+
+        $db = \Config\Database::connect();
+        if ($db->query("UPDATE shipping SET sender_name = '$name', sender_phone = '$phone', sender_address = '$address' WHERE id = '1'")) {
+            $this->session->setFlashdata('ReturnSuccess', 'Sender information has been updated');
+        } else {
+            $this->session->setFlashdata('ReturnFailed', 'Internal Server Error');
+        }
+
+        return redirect()->to(base_url('admin/orders'));
+    }
+
     /**
      * Orders
      */
     public function orders()
     {
-        return view('admin/orders/list');
+        $db = \Config\Database::connect();
+        $query = $db->query("SELECT * FROM shipping WHERE id = '1'");
+
+        $data['sender'] = $query->getResult('array');
+
+        return view('admin/orders/list', $data);
     }
 
     public function ordersGetUploading()

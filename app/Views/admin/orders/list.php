@@ -19,8 +19,11 @@
                 <h2 class="fw-semibold">List of Orders</h2>
                 <hr class="mt-05" style="max-width: 200px;border: 2px solid; opacity: 1 ">
                 <div class="d-flex mb-5">
-                    <button class="btn btn-primary rounded-0" data-bs-toggle="modal" data-bs-target="#addOrderModal">
+                    <button class="btn btn-primary rounded-0 me-2" data-bs-toggle="modal" data-bs-target="#addOrderModal">
                         <i class="fa-solid fa-file-circle-plus"></i>&nbsp; Add New Order
+                    </button>
+                    <button class="btn btn-dark rounded-0 me-2" data-bs-toggle="modal" data-bs-target="#shippingInfo">
+                        <i class="fa-solid fa-truck"></i>&nbsp; Shipping Info
                     </button>
                 </div>
                 <ul class="nav nav-tabs" id="orderTabs" role="tablist">
@@ -49,8 +52,6 @@
                 </div>
             </div>
         </section>
-
-
     </div>
 
     <!-- Add Order Modal -->
@@ -93,6 +94,43 @@
                     <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-primary rounded-0" onclick="addOrder()"><i class="fa-solid fa-floppy-disk"></i>&nbsp; Save</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shipping Info Modal -->
+    <div class="modal fade" id="shippingInfo" tabindex="-1" aria-labelledby="shippingInfoLabel" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-0">
+                <form action="<?= base_url('admin/shipping/config') ?>" method="POST">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="shippingInfoLabel">
+                            <i class="fa-solid fa-truck"></i>&nbsp; Shipping Info
+                        </h1>
+                        <button type="button" class="btn-close rounded-0 noglow" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="updateSenderName">Sender Name</label>
+                            <input type="text" class="form-control my-2" name="updateSenderName" id="updateSenderName" disabled value="<?= $sender[0]['sender_name'] ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="updateSenderPhone">Sender Phone</label>
+                            <input type="text" class="form-control my-2" name="updateSenderPhone" id="updateSenderPhone" disabled value="<?= $sender[0]['sender_phone'] ?>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="updateSenderAddress">Sender Address</label>
+                            <textarea type="text" class="form-control my-2" name="updateSenderAddress" id="updateSenderAddress" style="max-height:150px" disabled><?= $sender[0]['sender_address'] ?></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between">
+                        <button type="button" id="buttonEditShippingInfo" class="btn btn-outline-primary rounded-0" onclick="switchEditMode()"><i class="fa-solid fa-rotate"></i>&nbsp; <span id="text-mode">Edit Mode</span></button>
+                        <span>
+                            <button type="button" class="btn btn-secondary rounded-0" data-bs-dismiss="modal">Cancel</button>
+                            <button id="buttonUpdateShippingInfo" class="btn btn-primary rounded-0" hidden><i class="fa-regular fa-floppy-disk"></i>&nbsp; Save</button>
+                        </span>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -602,6 +640,40 @@
                 },
             );
         }
+
+        function switchEditMode() {
+
+            if ($('#buttonUpdateShippingInfo').attr('hidden') == 'hidden') {
+                $('#buttonUpdateShippingInfo').removeAttr('hidden')
+                $('#text-mode').html('Read Mode')
+
+                $('#updateSenderName').removeAttr('disabled')
+                $('#updateSenderPhone').removeAttr('disabled')
+                $('#updateSenderAddress').removeAttr('disabled')
+            } else {
+                $('#buttonUpdateShippingInfo').attr('hidden', 'hidden')
+                $('#text-mode').html('Edit Mode')
+                $('#updateSenderName').attr('disabled', 'disabled')
+                $('#updateSenderPhone').attr('disabled', 'disabled')
+                $('#updateSenderAddress').attr('disabled', 'disabled')
+            }
+
+
+        }
+
+        <?php
+        if (isset($_SESSION['ReturnSuccess'])) {
+        ?>
+            Notiflix.Notify.success("<?= $_SESSION['ReturnSuccess'] ?>")
+        <?php
+        }
+
+        if (isset($_SESSION['ReturnFailed'])) {
+        ?>
+            Notiflix.Notify.failure("<?= $_SESSION['ReturnFailed'] ?>")
+        <?php
+        }
+        ?>
     </script>
 </body>
 
