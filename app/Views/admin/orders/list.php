@@ -395,7 +395,7 @@
         function deleteOrder(id, order_no) {
             Notiflix.Confirm.show(
                 'Delete Order ' + order_no,
-                'Are you sure want to delete this order? it will delete uploaded photos of this order as well',
+                'Are you sure want to delete this order?',
                 'Yes',
                 'No',
                 () => {

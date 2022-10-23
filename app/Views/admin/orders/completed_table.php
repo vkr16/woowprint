@@ -6,7 +6,7 @@
         <th style="white-space: nowrap">Customer Phone</th>
         <th style="white-space: nowrap">Order Date</th>
         <th style="white-space: nowrap">Completion Date</th>
-        <th style="white-space: nowrap">Details</th>
+        <th style="white-space: nowrap">Option</th>
     </thead>
     <tbody>
         <?php
@@ -21,7 +21,12 @@
                 <td class="align-middle" style="white-space: nowrap"><?= date("d M Y", $order['created_at']) ?></td>
                 <td class="align-middle" style="white-space: nowrap"><?= date("d M Y", $order['updated_at']) ?></td>
 
-                <td class="align-middle" style="white-space: nowrap"><button class="btn btn-sm btn-primary rounded-0" onclick="detailModal('<?= $order['id'] ?>','<?= $order['order_no'] ?>','<?= $order['cust_name'] ?>','<?= $order['cust_phone'] ?>','<?= $order['cust_address'] ?>','<?= $order['description'] ?>','<?= $order['amount_photo'] ?>','<?= $order['status'] ?>')"><i class="fa-solid fa-circle-info"></i>&nbsp; Detail</button></td>
+
+                <td class="align-middle" style="white-space: nowrap">
+                    <button class="btn btn-sm btn-danger rounded-0 me-2 my-1" onclick="deleteOrder(<?= $order['id'] ?>,'<?= $order['order_no'] ?>')"><i class="fa-solid fa-trash-can"></i>&nbsp; Delete</button>
+
+                    <button class="btn btn-sm btn-primary rounded-0" onclick="detailModal('<?= $order['id'] ?>','<?= $order['order_no'] ?>','<?= $order['cust_name'] ?>','<?= $order['cust_phone'] ?>','<?= $order['cust_address'] ?>','<?= $order['description'] ?>','<?= $order['amount_photo'] ?>','<?= $order['status'] ?>')"><i class="fa-solid fa-circle-info"></i>&nbsp; Detail</button>
+                </td>
 
             </tr>
         <?php
