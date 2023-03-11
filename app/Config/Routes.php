@@ -87,8 +87,6 @@ $routes->post('/admin/administrators/update', 'Admin::administratorsUpdate');
 $routes->get('/admin/administrators/delete', 'Admin::administratorsDelete');
 
 
-
-
 /**
  * Authentication
  */
@@ -101,7 +99,7 @@ $routes->get('/logout', 'Auth::logout');
  */
 $routes->post('/api/v1/add-admin', 'Api::addAdmin'); //require name,username,password & api_password
 
-$routes->post('/admin/shipping/config', 'Admin::shippingConfig'); //require name,username,password & api_password
+$routes->post('/admin/shipping/config', 'Admin::shippingConfig');
 
 
 /*
